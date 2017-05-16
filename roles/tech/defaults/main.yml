@@ -1,0 +1,20 @@
+---
+
+tech_repo: git@github.com:davidmcclure/literary-interior.git
+tech_branch: master
+
+tech_dirs:
+  code: /share/PI/malgeehe/code/tech-in-novels
+  sbatch: /share/PI/malgeehe/sbatch/tech-in-novels
+
+# TODO: Share from spark role?
+spark_dir: /share/PI/malgeehe/spark
+
+
+tech_sbatch:
+
+  - class: count_keywords
+    time: 00:10:00
+    nodes: 1
+    cores: 1
+    mem: 4000

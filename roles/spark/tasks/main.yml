@@ -1,0 +1,47 @@
+---
+
+- name: Create project directory
+  file:
+    path: '{{ spark_dir }}'
+    state: directory
+
+- name: Check for Spark tarball
+  register: tarball
+  stat:
+    path: '{{ spark_dir }}/{{ spark_release }}.tgz'
+
+- name: Copy Spark release
+  when: tarball.stat.exists == false
+  copy:
+    src: data/{{ spark_release }}.tgz
+    dest: '{{ spark_dir }}/{{ spark_release }}.tgz'
+
+- name: Unpack release
+  unarchive:
+    src: '{{ spark_dir }}/{{ spark_release }}.tgz'
+    dest: '{{ spark_dir }}'
+    remote_src: true
+
+- name: Symlink release
+  file:
+    src: '{{ spark_dir }}/{{ spark_release }}'
+    dest: '{{ spark_home }}'
+    state: link
+
+- name: Push Spark config
+  template:
+    src: '{{ item }}.j2'
+    dest: '{{ spark_home }}/conf/{{ item }}'
+  with_items:
+    - spark-defaults.conf
+
+- name: Add Spark to path
+  lineinfile:
+    dest: ~/.bashrc
+    line: export PATH=$PATH:{{ spark_home }}/bin
+
+- name: Copy cluster startup script
+  template:
+    src: start-cluster.j2
+    dest: '{{ spark_dir }}/start-cluster'
+    mode: '0555'

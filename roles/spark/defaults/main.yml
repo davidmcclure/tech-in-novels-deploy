@@ -1,0 +1,10 @@
+---
+
+spark_release: spark-2.1.0-bin-hadoop2.7
+
+spark_dir: /share/PI/malgeehe/spark
+spark_home: '{{ spark_dir }}/spark'
+
+lint_jar_path: /share/PI/malgeehe/code/lint.jar
+
+spark_local_dir: /scratch/PI/malgeehe/spark

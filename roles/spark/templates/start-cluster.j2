@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# https://github.com/mcapuccini/spark-on-slurm/blob/master/start-cluster.sh
+
+MASTER=$1
+HOST=$(hostname)
+
+if [ "$HOST" == "$MASTER" ]; then
+  {{ spark_home }}/sbin/start-master.sh
+fi
+
+{{ spark_home }}/sbin/start-slave.sh spark://$MASTER:7077
+
+# Wait forever
+tail -f /dev/null

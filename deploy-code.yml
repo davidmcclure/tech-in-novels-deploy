@@ -1,0 +1,6 @@
+---
+
+- name: Deploy code
+  hosts: sherlock
+  roles:
+    - role: tech

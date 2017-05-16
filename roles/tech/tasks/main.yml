@@ -1,0 +1,25 @@
+---
+
+- name: Create project directories
+  file:
+    path: '{{ item.value }}'
+    state: directory
+  with_dict: '{{ tech_dirs }}'
+
+- name: Pull the source code
+  git:
+    repo: '{{ tech_repo }}'
+    version: '{{ tech_branch }}'
+    dest: '{{ tech_dirs.code }}'
+    accept_hostkey: yes
+
+- name: Install the package
+  command: bin/setup-sherlock
+  args:
+    chdir: '{{ tech_dirs.code }}'
+
+- name: Push sbatch configs
+  template:
+    src: sbatch.j2
+    dest: '{{ tech_dirs.sbatch }}/{{ item.name }}.sbatch'
+  with_items: '{{ tech_sbatch }}'

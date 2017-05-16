@@ -1,0 +1,56 @@
+#!/bin/bash
+#
+#all commands that start with SBATCH contain commands that are just used by SLURM for scheduling
+#################
+#set a job name
+#SBATCH --job-name={{ item.class }}
+#################
+#a file for job output, you can check job progress
+#SBATCH --output={{ item.class }}.out
+#################
+# a file for errors from the job
+#SBATCH --error={{ item.class }}.err
+#################
+#time you think you need; default is one hour
+#in minutes in this case, hh:mm:ss
+#SBATCH --time={{ item.time }}
+#################
+#quality of service; think of it as job priority
+#SBATCH --qos=normal
+#################
+#number of nodes you are requesting
+#SBATCH --nodes={{ item.nodes }}
+#################
+#memory per node; default is 4000 MB per CPU
+#SBATCH --mem={{ item.mem }}
+#you could use --mem-per-cpu; they mean what we are calling cores
+#################
+#tasks to run per node; a "task" is usually mapped to a MPI processes.
+# for local parallelism (OpenMP or threads), use "--ntasks-per-node=1 --cpus-per-task=16" instead
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task={{ item.cores }}
+#################
+
+module load jre/1.8.0_91
+
+# Start the Spark master / slave.
+MASTER=$(hostname)
+srun {{ spark_dir }}/start-cluster $MASTER &
+
+# Wait for cluster to start.
+sleep 20
+
+{% set cores = item.nodes * item.cores %}
+
+# By default, 2g for driver.
+{% set driver_memory = item.driver_memory | default(4000) %}
+{% set master_memory = item.master_memory | default(4000) %}
+
+# Executor gets everything left over.
+{% set executor_memory = item.mem - driver_memory - master_memory %}
+
+spark-submit \
+  --driver-memory {{ driver_memory }}m \
+  --executor-memory {{ executor_memory }}m \
+  --master spark://$MASTER:7077 \
+  {{ lint_jar_path }} $@
