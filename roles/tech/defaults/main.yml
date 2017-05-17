@@ -13,7 +13,7 @@ spark_dir: /share/PI/malgeehe/spark
 
 tech_sbatch:
 
-  - job: count_keywords
+  - name: count_keywords
     time: 00:10:00
     nodes: 1
     cores: 1

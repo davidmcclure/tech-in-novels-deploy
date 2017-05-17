@@ -3,13 +3,13 @@
 #all commands that start with SBATCH contain commands that are just used by SLURM for scheduling
 #################
 #set a job name
-#SBATCH --job-name={{ item.class }}
+#SBATCH --job-name={{ item.name }}
 #################
 #a file for job output, you can check job progress
-#SBATCH --output={{ item.class }}.out
+#SBATCH --output={{ item.name }}.out
 #################
 # a file for errors from the job
-#SBATCH --error={{ item.class }}.err
+#SBATCH --error={{ item.name }}.err
 #################
 #time you think you need; default is one hour
 #in minutes in this case, hh:mm:ss
@@ -32,6 +32,9 @@
 #################
 
 module load jre/1.8.0_91
+module load python/3.4.3
+
+PYTHONPATH={{ tech_dirs.code }}
 
 # Start the Spark master / slave.
 MASTER=$(hostname)
@@ -53,4 +56,4 @@ spark-submit \
   --driver-memory {{ driver_memory }}m \
   --executor-memory {{ executor_memory }}m \
   --master spark://$MASTER:7077 \
-  {{ tech_dirs.code }}/bin/{{ item.job }}.py $@
+  {{ tech_dirs.code }}/bin/{{ item.name }}.py $@
