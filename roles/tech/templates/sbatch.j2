@@ -46,8 +46,8 @@ sleep 20
 {% set cores = item.nodes * item.cores %}
 
 # By default, 4g for driver.
-{% set driver_memory = item.driver_memory | default(1000) %}
-{% set master_memory = item.master_memory | default(1000) %}
+{% set driver_memory = item.driver_memory | default(4000) %}
+{% set master_memory = item.master_memory | default(4000) %}
 
 # Executor gets everything left over.
 {% set executor_memory = item.mem - driver_memory - master_memory %}

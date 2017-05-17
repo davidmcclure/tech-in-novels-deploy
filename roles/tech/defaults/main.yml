@@ -16,5 +16,5 @@ tech_sbatch:
   - name: count_keywords
     time: 00:10:00
     nodes: 1
-    cores: 1
-    mem: 4000
+    cores: 16
+    mem: 64000
