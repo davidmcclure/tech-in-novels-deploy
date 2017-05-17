@@ -13,6 +13,11 @@
     dest: '{{ tech_dirs.code }}'
     accept_hostkey: yes
 
+- name: Push setup script
+  template:
+    src: setup-sherlock.j2
+    dest: '{{ tech_dirs.code }}/bin/setup-sherlock'
+
 - name: Install the package
   command: bin/setup-sherlock
   args:
