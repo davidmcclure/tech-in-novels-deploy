@@ -53,4 +53,4 @@ spark-submit \
   --driver-memory {{ driver_memory }}m \
   --executor-memory {{ executor_memory }}m \
   --master spark://$MASTER:7077 \
-  {{ lint_jar_path }} $@
+  {{ tech_dirs.code }}/bin/{{ item.job }}.py $@

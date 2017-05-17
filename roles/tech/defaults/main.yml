@@ -1,6 +1,6 @@
 ---
 
-tech_repo: git@github.com:davidmcclure/literary-interior.git
+tech_repo: git@github.com:davidmcclure/tech-in-novels.git
 tech_branch: master
 
 tech_dirs:
@@ -13,7 +13,7 @@ spark_dir: /share/PI/malgeehe/spark
 
 tech_sbatch:
 
-  - class: count_keywords
+  - job: count_keywords
     time: 00:10:00
     nodes: 1
     cores: 1
