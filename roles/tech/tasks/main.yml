@@ -17,6 +17,7 @@
   template:
     src: setup-sherlock.j2
     dest: '{{ tech_dirs.code }}/bin/setup-sherlock'
+    mode: 0755
 
 - name: Install the package
   command: bin/setup-sherlock
