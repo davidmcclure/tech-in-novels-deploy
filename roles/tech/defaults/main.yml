@@ -14,7 +14,7 @@ spark_dir: /share/PI/malgeehe/spark
 tech_sbatch:
 
   - name: count_keywords
-    time: 00:10:00
+    time: 04:00:00
     nodes: 1
     cores: 16
     mem: 64000
